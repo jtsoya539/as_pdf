@@ -8,6 +8,10 @@ is
 ** See also: http://technology.amis.nl/?p=17718
 **
 ** Changelog:
+**   Date: 17-07-2021 Lee Lindley
+**     added c_get_page_count and return of same from function get()
+**      If you want to modify your own version, search for c_get_page_count
+**      in this source. It is only 2 lines. Otherwise identical to the original.
 **   Date: 13-08-2012
 **     added two procedure for Andreas Weiden
 **     see https://sourceforge.net/projects/pljrxml2pdf/
@@ -53,6 +57,8 @@ THE SOFTWARE.
   c_get_y             constant pls_integer := 7;
   c_get_fontsize      constant pls_integer := 8;
   c_get_current_font  constant pls_integer := 9;
+  -- added ltl for GetPdf wrapper package 20210717
+  c_get_page_count    constant pls_integer := 10;
 --
   function file2blob( p_dir varchar2, p_file_name varchar2 )
   return blob;
@@ -3278,6 +3284,8 @@ dbms_output.put_line( t_font_ind || ' ' || g_fonts( t_font_ind ).fontname || ' '
              when c_get_y             then g_y
              when c_get_fontsize      then g_fonts( g_current_font ).fontsize
              when c_get_current_font  then g_current_font
+             -- added ltl for GetPdf wrapper package 20210717
+             when c_get_page_count    then g_pages.count()
            end;
   end;
 --
