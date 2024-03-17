@@ -1145,8 +1145,7 @@ end' ) );
     t_banner varchar2( 1000 );
   begin
     begin
-      select    'running on '
-             || replace( replace( replace( substr( banner
+      select    replace( replace( replace( substr( banner
                                                  , 1
                                                  , 950
                                                  )
@@ -1164,7 +1163,7 @@ end' ) );
       where instr( upper( banner )
                  , 'DATABASE'
                  ) > 0;
-      t_banner := '/Producer (' || t_banner || ')';
+      t_banner := '/Creator (' || t_banner || ')';
     exception
       when others
       then
@@ -1172,8 +1171,8 @@ end' ) );
     end;
 --
     return add_object( to_char( sysdate, '"/CreationDate (D:"YYYYMMDDhh24miss")"' )
-                     || '/Creator (' || g_package || ' ' || g_version || ' by Anton Scheffer & Valerio Rossetti)'
                      || t_banner
+                     || '/Producer (' || g_package || ' ' || g_version || ' by Anton Scheffer)'
                      || '/Title <FEFF' || utl_i18n.string_to_raw( g_info.title, 'AL16UTF16' ) || '>'
                      || '/Author <FEFF' || utl_i18n.string_to_raw( g_info.author, 'AL16UTF16' ) || '>'
                      || '/Subject <FEFF' || utl_i18n.string_to_raw( g_info.subject, 'AL16UTF16' ) || '>'
