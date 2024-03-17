@@ -10,6 +10,7 @@ create or replace package as_pdf is
 ** Changelog:
 **   Date: 17-03-2024 Javier Meza
 **     modify adler32 function with version by Alex Fatkulin for error when chunk size is 32K
+**     added global g_version
 **   Date: 17-07-2021 Lee Lindley
 **     added c_get_page_count and return of same from function get()
 **      If you want to modify your own version, search for c_get_page_count

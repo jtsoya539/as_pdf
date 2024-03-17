@@ -79,6 +79,8 @@ is
 
 -- ***************************************************
 -- globals
+  g_package         VARCHAR2(32):='AS_PDF'; -- Package Name
+  g_version         VARCHAR2(32):='3.5.13'; -- Package Version
   g_objects         tp_objects_tab;
   g_pages           tp_pages_tab;
   g_settings        tp_settings;
@@ -95,7 +97,6 @@ is
   g_y               number;      -- current y-location of the "cursor"
   g_current_fcolor  VARCHAR2(6); -- Current Foreground Color
   g_current_bcolor  VARCHAR2(6); -- Current Background Color
-  g_package         VARCHAR2(32):='as_pdf'; -- Package Name (myself)
   g_bForce          BOOLEAN;     -- Force Font Changing
 -- *****************************************************
 -- constants
@@ -1171,7 +1172,7 @@ end' ) );
     end;
 --
     return add_object( to_char( sysdate, '"/CreationDate (D:"YYYYMMDDhh24miss")"' )
-                     || '/Creator (AS-PDF 0.3.5 by Anton Scheffer & Valerio Rossetti)'
+                     || '/Creator (' || utl_i18n.string_to_raw( g_package || ' ' || g_version, 'AL16UTF16' ) || ' by Anton Scheffer & Valerio Rossetti)'
                      || t_banner
                      || '/Title <FEFF' || utl_i18n.string_to_raw( g_info.title, 'AL16UTF16' ) || '>'
                      || '/Author <FEFF' || utl_i18n.string_to_raw( g_info.author, 'AL16UTF16' ) || '>'
