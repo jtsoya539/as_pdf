@@ -59,8 +59,8 @@ In other words just before saving, when we already know the total number of page
 There are no distinction between header and footer, it depends on te coordinate used into procedure.
 The margins defined with set_margins haven’t effect for this procedure.
 
-# query2table
+## query2table
 This procedure uses query result to print a datagrid.
 
-# query2labels
+## query2labels
 This procedure uses query result to print record into an array of labels, similar to a mailing list address.
