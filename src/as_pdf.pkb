@@ -492,23 +492,40 @@ is
     null;
   end;
 --
-  function adler32(p_src in blob) return varchar2 is
-    l_buf_size pls_integer := 8192;
-    l_buffer   raw(8192);
-    s1         pls_integer := 1;
-    s2         pls_integer := 0;
+  function adler32( p_src in blob )
+  return varchar2
+  is
+    s1 pls_integer := 1;
+    s2 pls_integer := 0;
+    n  pls_integer;
+    step_size number;
+    tmp varchar2(32766);
+    c65521 constant pls_integer := 65521;
   begin
-    for i in 1 .. ceil(dbms_lob.getlength(p_src) / l_buf_size) loop
-      l_buffer := dbms_lob.substr(p_src, l_buf_size, (i - 1) * l_buf_size + 1);
-      for j in 1 .. utl_raw.length(l_buffer) loop
-        s1 := mod(s1 + utl_raw.cast_to_binary_integer(utl_raw.substr(l_buffer,
-                                                                     j,
-                                                                     1)),
-                  65521);
-        s2 := mod(s2 + s1, 65521);
+    step_size := trunc( 16383 / dbms_lob.getchunksize( p_src ) ) * dbms_lob.getchunksize( p_src );
+    -- AW Bugfix for Chunksizes > 16383
+    if step_size=0 then
+      step_size:=16383;
+    end if;
+    for j in 0 .. trunc( ( dbms_lob.getlength( p_src ) - 1 ) / step_size )
+    loop
+      tmp := rawtohex( dbms_lob.substr( p_src, step_size, j * step_size + 1 ) );
+      for i in 1 .. length( tmp ) / 2
+      loop
+        n := to_number( substr( tmp, i * 2 - 1, 2 ), 'xx' );
+        s1 := s1 + n;
+        if s1 >= c65521
+        then
+          s1 := s1 - c65521;
+        end if;
+        s2 := s2 + s1;
+        if s2 >= c65521
+        then
+          s2 := s2 - c65521;
+        end if;
       end loop;
     end loop;
-    return to_char(s2, 'fm0XXX') || to_char(s1, 'fm0XXX');
+    return to_char( s2, 'fm0XXX' ) || to_char( s1, 'fm0XXX' );
   end;
 --
   function flate_encode( p_val blob )
