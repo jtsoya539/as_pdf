@@ -155,6 +155,9 @@ THE SOFTWARE.
   function conv2uu( p_value number, p_unit varchar2 )
   return number;
 --
+  function adler32( p_src in blob )
+  return varchar2;
+--
   procedure set_Language(p_vNewValue in varchar2:='E');
 --
   procedure set_page_size
@@ -613,9 +616,51 @@ $IF not DBMS_DB_VERSION.ver_le_10 $THEN
     );
 $END
 --
-  procedure pr_goto_page( i_npage number );
+  type tVertices is table of number index by pls_integer;
+
+  PATH_MOVE_TO    CONSTANT NUMBER:=1;
+  PATH_LINE_TO    CONSTANT NUMBER:=2;
+  PATH_CURVE_TO   CONSTANT NUMBER:=3;
+  PATH_CLOSE      CONSTANT NUMBER:=4;
+
+  type tPathElement IS RECORD (
+    nType NUMBER,
+    nVal1 NUMBER,
+    nVal2 NUMBER,
+    nVal3 NUMBER,
+    nVal4 NUMBER,
+    nVal5 NUMBER,
+    nVal6 NUMBER
+  );
+
+  TYPE tPath IS TABLE OF tPathElement INDEX BY BINARY_INTEGER;
 --
-  procedure pr_goto_current_page;
+  PROCEDURE PR_GOTO_PAGE(i_nPage IN NUMBER);
+
+  PROCEDURE PR_GOTO_CURRENT_PAGE;
+
+  PROCEDURE PR_LINE(i_nX1         IN NUMBER,
+                    i_nY1         IN NUMBER,
+                    i_nX2         IN NUMBER,
+                    i_nY2         IN NUMBER,
+                    i_vcLineColor IN VARCHAR2 DEFAULT NULL,
+                    i_nLineWidth  IN NUMBER DEFAULT 0.5,
+                    i_vcStroke    IN VARCHAR2 DEFAULT NULL
+                   );
+
+  PROCEDURE PR_POLYGON(i_lXs         IN tVertices,
+                       i_lYs         IN tVertices,
+                       i_vcLineColor IN VARCHAR2 DEFAULT NULL,
+                       i_vcFillColor IN VARCHAR2 DEFAULT NULL,
+                       i_nLineWidth  IN NUMBER DEFAULT 0.5
+                      );
+
+  PROCEDURE PR_PATH(i_lPath       IN tPath,
+                    i_vcLineColor IN VARCHAR2 DEFAULT NULL,
+                    i_vcFillColor IN VARCHAR2 DEFAULT NULL,
+                    i_nLineWidth  IN NUMBER DEFAULT 0.5
+                   );
+--
 
 end;
 /
