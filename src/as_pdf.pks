@@ -8,9 +8,10 @@ create or replace package as_pdf is
 ** See also: http://technology.amis.nl/?p=17718
 **
 ** Changelog:
-**   Date: 17-03-2024 Javier Meza
-**     modify adler32 function with version by Andreas Weiden for error when chunk size is 32K
+**   Date: 18-03-2024 Javier Meza
+**     merge changes by Andreas Weiden for PL-jrxml2pdf
 **     added global g_version
+**     changed global g_Language for error messages language
 **   Date: 17-07-2021 Lee Lindley
 **     added c_get_page_count and return of same from function get()
 **      If you want to modify your own version, search for c_get_page_count
@@ -143,10 +144,10 @@ THE SOFTWARE.
   -- oddRows  = Black/Light Gray/Black
   c_dft_colours        constant varchar2(64):='000000,e0ffff,000000,000000,ffffff,000000,000000,d0d0d0,000000';
 
--- Decimal separator used in the text
+  -- Decimal separator used in the text
   g_vDP VARCHAR2(1):= CASE WHEN instr(to_char(15/10),'.') = 0 THEN ',' ELSE '.' END;
 
-  g_Language varchar2(1):='E';
+  g_Language varchar2(2):='EN';
 
 --
   function file2blob( p_dir varchar2, p_file_name varchar2 )
@@ -158,7 +159,7 @@ THE SOFTWARE.
   function adler32( p_src in blob )
   return varchar2;
 --
-  procedure set_Language(p_vNewValue in varchar2:='E');
+  procedure set_Language(p_vNewValue in varchar2:='EN');
 --
   procedure set_page_size
     ( p_width  number

@@ -167,7 +167,7 @@ create or replace package body as_pdf is
     return v_vReturn;
   END;
 
-  procedure set_Language(p_vNewValue in varchar2:='E') is
+  procedure set_Language(p_vNewValue in varchar2:='EN') is
   begin
     g_Language:=upper1(p_vNewValue);
   end;
@@ -176,7 +176,7 @@ create or replace package body as_pdf is
     v_vMsg varchar2(100);
   begin
     case g_Language
-      when 'I' then -- Italian
+      when 'IT' then -- Italian
         case p_nErrNum
           when -20001 then
             v_vMsg:='Troppe colonne o larghezza colonne eccessiva';
@@ -195,7 +195,7 @@ create or replace package body as_pdf is
           else
             v_vMsg:='Errore non codificato';
         end case;
-      else           -- English Default
+      else -- English (Default)
         case p_nErrNum
           when -20001 then
             v_vMsg:='too many columns or excessive column width';
