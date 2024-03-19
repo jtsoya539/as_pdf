@@ -5613,6 +5613,9 @@ $END
     txt2page( vcBuffer || ' Q' );
   END;
 --
-
+begin
+  for i in 0..255 loop
+    lHex(TO_CHAR(i, 'FM0X')):=i;
+  end loop;
 end;
 /
