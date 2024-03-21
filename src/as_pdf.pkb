@@ -101,16 +101,17 @@ create or replace package body as_pdf is
   g_current_fcolor  VARCHAR2(6); -- Current Foreground Color
   g_current_bcolor  VARCHAR2(6); -- Current Background Color
   g_bForce          BOOLEAN;     -- Force Font Changing
+  g_Log             BOOLEAN := FALSE;
+  g_Language        VARCHAR2(2):='EN';
 -- *****************************************************
 -- constants
   c_nl constant varchar2(2) := chr(13) || chr(10);
-  g_Log            BOOLEAN := FALSE;
 
 -- Generic Functions
   PROCEDURE log(p_vString IN VARCHAR2, p_bFlag IN BOOLEAN:=FALSE) IS
   BEGIN
-    IF g_Log then
-      if p_bFlag THEN
+    IF g_Log THEN
+      if p_bFlag then
         dbms_output.put_line(p_vString);
       end if;
     END IF;
@@ -167,9 +168,14 @@ create or replace package body as_pdf is
     return v_vReturn;
   END;
 
+  procedure set_Log(p_vNewValue in boolean:=true) is
+  begin
+    g_Log:=p_vNewValue;
+  end;
+
   procedure set_Language(p_vNewValue in varchar2:='EN') is
   begin
-    g_Language:=upper1(p_vNewValue);
+    g_Language:=upper(p_vNewValue);
   end;
 
   procedure RaiseError(p_nErrNum in number) is

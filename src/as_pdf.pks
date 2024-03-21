@@ -7,97 +7,12 @@ create or replace package as_pdf is
 ** Website:  http://technology.amis.nl
 ** See also: http://technology.amis.nl/?p=17718
 **
-** Changelog:
-**   Date: 18-03-2024 Javier Meza
-**     merge changes by Andreas Weiden for PL-jrxml2pdf
-**     added global g_version
-**     changed global g_Language for error messages language
-**   Date: 17-07-2021 Lee Lindley
-**     added c_get_page_count and return of same from function get()
-**      If you want to modify your own version, search for c_get_page_count
-**      in this source. It is only 2 lines. Otherwise identical to the original.
-**   Date: 13-08-2012
-**     added two procedure for Andreas Weiden
-**     see https://sourceforge.net/projects/pljrxml2pdf/
-**   Date: 16-04-2012
-**     changed code for parse_png
-**   Date: 15-04-2012
-**     only dbms_lob.freetemporary for temporary blobs
-**   Date: 11-04-2012
-**     Initial release of as_pdf3
-**
 ******************************************************************************
+**
 ** Author: Valerio Rossetti
 ** Date: 27-07-2012
 ** Website:  http://valeriorossetti.blogspot.it/
 ** See also: http://valeriorossetti.blogspot.it/2014/07/aspdf3v5-new-features-versione-italiana.html
-**
-** Changelog:
-** Date: 27-07-2012                    Version:  0.3.5.00
-**   type tp_column                    :Formatting each heder and table columns
-**   query2table and refcursor2table Added parameters
-**     p_formats (table of tp_columns) :Define column's and header formats
-**     (width, font, style, size, aligment, numberformat, colors, ...)
-**     p_colors                        :9 default colors, including odd/even lines
-**     p_hRowHeight                    :minimum header row height
-**     p_dRowHeight                    :minimum table  row height
-**     p_pm                            :measurement unit
-**     p_startX                        :start X position for table (indent it)
-**     p_BreakField                    :check break from filed 1 to p_BreakField (0 none)
-**   Add function BorderType           :translate border string TBLR into nuber 0-15
-**   Add function to word wrap lines that exceeds column width
-**   Add Procedure LogoCoop that print Logo on Upper Left corner
-**
-** Date: 10-06-2014                    Version:  0.3.5.01
-**   +Multirow Record Added:
-**    offsetX                          OffsetX from left border of table,
-**                                     reset it when change row
-**    cellRow                          Row where cell are printed, use strinct sequence
-**    hCHeight / tCHeight              Cella Height              (header e table)
-**  +Selective Border Added:
-**    function BorderType('TBLR')      convert literal into 4 bit bynary
-**    hBorder  / tBorder               4 bit bynanry border settimg 0 no border
-**
-** Data: 10-07-2014                    Version:  0.3.5.02
-**   some bug fixes in text alignment
-**   +offsetY                          OffsetY from Top side of record block
-**   +LabelMode                        Print Records as row/col stickers
-**
-** Date: 18-09-2014                    Version:  0.3.5.03
-**   bugfix and impovement suggested by Giuseppe Polo
-**   +query2table                      added Interline parameter
-**    setCellFont                      bugfix for Header
-** Date: 26-09-2014                    Version:  0.3.5.04
-**   bugfix for recursive call of function Write
-** Date: 29-09-2014                    Version:  0.3.5.05
-**   +query2table                      added pFrame parameter ex:  'L=2pt; C=FF0000'
-**                                     where L=Linesize and C=rgb hex colour
-**   +query2table                      p_colors also accept CSV string of colors rdb colours
-**   +set_Language                     Set language for error messages. (English, Italian)
-**   +put_image                        add parameters p_cellWidth, p_cellheight
-**   +Columns can contain blob IMAGE
-**   +FullJustify Alignment            for write & query2table
-**
-** Date: 25-11-2014                    Version:  0.3.5.06
-**   bugfix for query with more than 200 records
-**   +query2table and cursor2table     Add optional parameter p_bulk_size:=200 (Buffer size)
-**                                     if = 0 buffer is autodetected, but query runs 2 times!
-** Date: 24-06-2015                    Version:  0.3.5.07
-**   BugFix query2table                Reset rowHeith when RowHeight Min or Exacat as specified
-** Date: 30-06-2015                    Version:  0.3.5.08
-**   BugFix PrepareRecord              Fix problem with rowHeight
-** Date: 26-08-2015                    Version:  0.3.5.09
-**   BugFix colorTable                 Fix problem with undefined collection
-**   WARNING! if you change package name, propertly set g_package variable
-** Date: 14-12-2015                    Version:  0.3.5.10
-**   Bugix in PrepareRecord
-** Date: 11-05-2016                    Version:  0.3.5.11
-**   Bugfix error when calling with null colours
-**   colorTable changed and moved before query2Table
-**   query2table & query2label changed
-**   when calling query2table you must use empty string '' instead of null for p_colors parameter
-** Date: 06-09-2016                    Version:  0.3.5.12
-**   Bugfix error in recursive call of write procedure, um must be in pt
 **
 ******************************************************************************
 Copyright (C) 2012 by Anton Scheffer
@@ -147,8 +62,6 @@ THE SOFTWARE.
   -- Decimal separator used in the text
   g_vDP VARCHAR2(1):= CASE WHEN instr(to_char(15/10),'.') = 0 THEN ',' ELSE '.' END;
 
-  g_Language varchar2(2):='EN';
-
 --
   function file2blob( p_dir varchar2, p_file_name varchar2 )
   return blob;
@@ -158,6 +71,8 @@ THE SOFTWARE.
 --
   function adler32( p_src in blob )
   return varchar2;
+--
+  procedure set_Log(p_vNewValue in boolean:=true);
 --
   procedure set_Language(p_vNewValue in varchar2:='EN');
 --
