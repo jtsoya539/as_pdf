@@ -182,6 +182,25 @@ create or replace package body as_pdf is
     v_vMsg varchar2(100);
   begin
     case g_Language
+      when 'ES' then -- Spanish
+        case p_nErrNum
+          when -20001 then
+            v_vMsg:='demasiadas columnas o ancho excesivo de las columnas';
+          when -20002 then
+            v_vMsg:='no se pudo calcular el número máximo de columnas';
+          when -20003 then
+            v_vMsg:='demasiadas columnas, excede el ancho de la página';
+          when -20011 then
+            v_vMsg:='demasiadas filas o alto excesivo de las filas';
+          when -20012 then
+            v_vMsg:='no se pudo calcular el número máximo de filas';
+          when -20013 then
+            v_vMsg:='demasiadas filas, excede el alto de la página';
+          when -20100 then
+            v_vMsg:='el ancho de las columnas excede el ancho de la página';
+          else
+            v_vMsg:='Error no identificado';
+        end case;
       when 'IT' then -- Italian
         case p_nErrNum
           when -20001 then
