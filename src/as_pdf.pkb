@@ -83,7 +83,7 @@ create or replace package body as_pdf is
 -- ***************************************************
 -- globals
   g_package         VARCHAR2(32):='AS_PDF'; -- Package Name
-  g_version         VARCHAR2(32):='3.5.13'; -- Package Version
+  g_version         VARCHAR2(32):='3.6.0'; -- Package Version
   g_objects         tp_objects_tab;
   g_pages           tp_pages_tab;
   g_settings        tp_settings;
