@@ -1246,14 +1246,14 @@ end' ) );
           -- Replace substitution key with
           -- #PAGE_NR#    Current page number
           -- #PAGE_COUNT# Total page number
-          -- ?            Package name
+          -- §            Package name
 
             EXECUTE IMMEDIATE
               replace(replace(replace(
                 g_page_prcs( p ),
                   '#PAGE_NR#', i + 1 ),
                   '#PAGE_COUNT#', g_pages.count),
-                  '?', g_package);
+                  '§', g_package);
 
           EXCEPTION
             when others then
