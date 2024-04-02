@@ -182,7 +182,7 @@ begin
         ) left join (
               SELECT 'G'||lpad(rownum,2,'0') tipo,
                      'LOGO '||'G'||lpad(rownum,2,'0') descrizione,
-                     'iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII' logo
+                     to_blob(utl_encode.base64_decode(utl_raw.cast_to_raw('iVBORw0KGgoAAAANSUhEUgAAAAgAAAAIAQMAAAD+wSzIAAAABlBMVEX///+/v7+jQ3Y5AAAADklEQVQI12P4AIX8EAgALgAD/aNpbtEAAAAASUVORK5CYII'))) logo
                 FROM DUAL d CONNECT BY ROWNUM <= 5
         ) using (tipo)
         order by 1
