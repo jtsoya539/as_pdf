@@ -23,5 +23,6 @@ begin
   as_pdf.query2table( t_query );
   open t_rc for t_query;
   as_pdf.refcursor2table( t_rc );
-  as_pdf.save_pdf;
+  --as_pdf.save_pdf;
+  :pdf := as_pdf.get_pdf;
 end;

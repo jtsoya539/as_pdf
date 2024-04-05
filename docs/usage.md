@@ -38,6 +38,19 @@ as_pdf.set_page_proc(varchar2 o clob);
 
 10. Execute save_pdf o get_pdf for saving the file or get blob content.
 
+## Samples
+Sample | Description | Author
+--- | --- | ---
+[sample01.sql](sample01.sql) | Minimal usage | Anton Scheffer
+[sample02.sql](sample02.sql) | Text positioning | Anton Scheffer
+[sample03.sql](sample03.sql) | Using standard PDF fonts | Anton Scheffer
+[sample04.sql](sample04.sql) | Using TrueType fonts | Anton Scheffer
+[sample05.sql](sample05.sql) | Lines | Anton Scheffer
+[sample06.sql](sample06.sql) | Images | Anton Scheffer
+[sample07.sql](sample07.sql) | Watermark | Anton Scheffer
+[sample08.sql](sample08.sql) | Using tables and labels | Valerio Rossetti
+[sample09.sql](sample09.sql) | Text alignment | Javier Meza
+
 ## set_margins
 It defines margins for data table, or for body of document.
 

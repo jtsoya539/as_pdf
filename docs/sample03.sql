@@ -39,5 +39,6 @@ begin
   as_pdf.write( 'times, normal with fontsize 20pt', -1, 400 );
   as_pdf.set_font( 'times', 'N', 6 );
   as_pdf.write( 'times, normal with fontsize 5pt', -1, -1 );
-  as_pdf.save_pdf;
+  --as_pdf.save_pdf;
+  :pdf := as_pdf.get_pdf;
 end;

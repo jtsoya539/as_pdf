@@ -12,5 +12,6 @@ begin
   loop
     as_pdf.horizontal_line( 330, 700 - i, 100, 2, p_line_color =>  to_char( i, 'fm0x' ) || to_char( i, 'fm0x' ) || to_char( i, 'fm0x' ) );
   end loop;
-  as_pdf.save_pdf;
+  --as_pdf.save_pdf;
+  :pdf := as_pdf.get_pdf;
 end;

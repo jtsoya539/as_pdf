@@ -91,5 +91,6 @@ begin
                    );
   as_pdf.write( 'jpg, gif and png images are supported.' );
   as_pdf.write( 'And because PDF 1.3 (thats the format I use) doesn''t support alpha channels, neither does AS_PDF.', -1, -1 );
-  as_pdf.save_pdf;
+  --as_pdf.save_pdf;
+  :pdf := as_pdf.get_pdf;
 end;
