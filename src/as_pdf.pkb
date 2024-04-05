@@ -5421,7 +5421,7 @@ $END
   is
     t_dummy integer;
   begin
-    write('Table here');
+    query2table(p_query, null, c_dft_colours);
   end;
 
 -- 2015-05-10 Add nvl(p_colors, colorTable(null)) that set default colours when null
@@ -5534,7 +5534,7 @@ $IF not DBMS_DB_VERSION.ver_le_10 $THEN
   is
     t_dummy integer;
   begin
-    write('Table here');
+    refcursor2table(p_rc, null, c_dft_colours);
   end;
 
   PROCEDURE refcursor2label
