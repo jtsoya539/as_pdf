@@ -5357,19 +5357,21 @@ $END
   end;
 
 -- 2015-05-10 Add nvl(p_colors, colorTable(null)) that set default colours when null
-  PROCEDURE query2table(p_query      VARCHAR2,
-                        p_formats    tp_columns:= NULL,
-                        p_colors     tp_colors := NULL,
-                        p_hRowHeight NUMBER:=NULL,
-                        p_tRowHeight NUMBER:=NULL,
-                        p_um         VARCHAR2:='pt',
-                        p_startX     number:= 0    ,
-                        p_BreakField number:= 0    ,
-                        p_Interline  number:=1.2   ,
-                        p_startY     number:= 0    ,
-                        p_Frame      varchar2:=null,
-                        p_bulk_size  pls_integer:= 200  -- 0=autodetect Buffer Size
-                        ) IS
+  PROCEDURE query2table
+    ( p_query      varchar2
+    , p_formats    tp_columns  := null
+    , p_colors     tp_colors   := null
+    , p_hRowHeight number      := null
+    , p_tRowHeight number      := null
+    , p_um         varchar2    := 'pt'
+    , p_startX     number      := 0    -- Distance from left border
+    , p_BreakField number      := 0
+    , p_Interline  number      := 1.2
+    , p_startY     number      := 0    -- Distance from top border
+    , p_Frame      varchar2    := null -- Border Around format
+    , p_bulk_size  pls_integer := 200
+    )
+  IS
     v_cx    INTEGER;
     v_dummy INTEGER;
     t_bulk_size  pls_integer;
@@ -5389,21 +5391,22 @@ $END
     dbms_sql.close_cursor(v_cx);
   END;
 
-
 -- 2015-05-10 Add colorTable(nvl(p_colors, c_dft_colours)) that set default colours when null
-  PROCEDURE query2table(p_query      VARCHAR2,
-                        p_formats    tp_columns:=NULL,
-                        p_colors     varchar2  :=NULL,
-                        p_hRowHeight NUMBER:=NULL  ,
-                        p_tRowHeight NUMBER:=NULL  ,
-                        p_um         VARCHAR2:='pt',
-                        p_startX     number:= 0    ,
-                        p_BreakField number:= 0    ,
-                        p_Interline  number:=1.2   ,
-                        p_startY     number:= 0    ,
-                        p_Frame      varchar2:=null,
-                        p_bulk_size  pls_integer:= 200
-                        ) IS
+  PROCEDURE query2table
+    ( p_query      varchar2
+    , p_formats    tp_columns  := null
+    , p_colors     varchar2    := null -- Color list CSV
+    , p_hRowHeight number      := null
+    , p_tRowHeight number      := null
+    , p_um         varchar2    := 'pt'
+    , p_startX     number      := 0    -- Distance from left border
+    , p_BreakField number      := 0
+    , p_Interline  number      := 1.2
+    , p_startY     number      := 0    -- Distance from top border
+    , p_Frame      varchar2    := null -- Border Around format
+    , p_bulk_size  pls_integer := 200
+    )
+  IS
   BEGIN
     query2table(p_query, p_formats, colorTable(nvl(p_colors, c_dft_colours)),
                 p_hRowHeight, p_tRowHeight, p_um,
@@ -5411,18 +5414,21 @@ $END
   END;
 
 -- 2015-05-10 Add nvl(p_colors, colorTable(null)) that set default colours when null
-  PROCEDURE query2Labels(p_query      VARCHAR2,
-                         p_formats    tp_columns := NULL,
-                         p_colors     tp_colors  := NULL,
-                         p_hRowHeight NUMBER:=NULL,
-                         p_tRowHeight NUMBER:=NULL,
-                         p_um         VARCHAR2:='pt',
-                         p_startX     number:= 0    ,
-                         p_labelDef   tp_labeldef   ,
-                         p_Interline  number:=1.2   ,
-                         p_startY     number:= 0    ,
-                         p_Frame      varchar2:=null
-                         ) IS
+  PROCEDURE query2Labels
+    ( p_query      varchar2
+    , p_formats    tp_columns  := null
+    , p_colors     tp_colors   := null
+    , p_hRowHeight number      := null
+    , p_tRowHeight number      := null
+    , p_um         varchar2    := 'pt'
+    , p_startX     number      := 0    -- Distance from left border
+    , p_labelDef   tp_labeldef
+    , p_Interline  number      := 1.2
+    , p_startY     number      := 0    -- Distance from top border
+    , p_Frame      varchar2    := null -- Border Around format
+    , p_bulk_size  pls_integer := 200
+    )
+  IS
     v_cx    INTEGER;
     v_dummy INTEGER;
   BEGIN
@@ -5434,47 +5440,50 @@ $END
     g_settings.LabelMode:=true;
     cursor2table(v_cx, p_formats, nvl(p_colors, colorTable(null)),
                  p_hRowheight, p_tRowheight, p_um,
-                 p_startX, 0, p_Interline, p_startY, p_Frame);
+                 p_startX, 0, p_Interline, p_startY, p_Frame, p_bulk_size);
     g_settings.LabelMode:=false;
     dbms_sql.close_cursor(v_cx);
   END;
 
-  -- Same as above, but color definition as CVS string
-  -- 2015-05-10 Add colorTable(nvl(p_colors, c_dft_colours)) that set default colours when null
-  PROCEDURE query2Labels(p_query      VARCHAR2
-                        ,p_formats    tp_columns := null
-                        ,p_colors     varchar2 := NULL
-                        ,p_hRowHeight NUMBER:=NULL
-                        ,p_tRowHeight NUMBER:=NULL
-                        ,p_um         VARCHAR2:='pt'
-                        ,p_startX     number:= 0
-                        ,p_labelDef   tp_labeldef
-                        ,p_Interline  number     :=1.2
-                        ,p_startY     number     := 0   -- Distance from top border
-                        ,p_Frame      varchar2:=null
-                         ) IS
+-- 2015-05-10 Add colorTable(nvl(p_colors, c_dft_colours)) that set default colours when null
+  PROCEDURE query2Labels
+    ( p_query      varchar2
+    , p_formats    tp_columns  := null
+    , p_colors     varchar2    := null -- Color list CSV
+    , p_hRowHeight number      := null
+    , p_tRowHeight number      := null
+    , p_um         varchar2    := 'pt'
+    , p_startX     number      := 0    -- Distance from left border
+    , p_labelDef   tp_labeldef
+    , p_Interline  number      := 1.2
+    , p_startY     number      := 0    -- Distance from top border
+    , p_Frame      varchar2    := null -- Border Around format
+    , p_bulk_size  pls_integer := 200
+    )
+  IS
   BEGIN
-
     query2Labels(p_query, p_formats, colorTable(nvl(p_colors, c_dft_colours)),
                  p_hRowHeight, p_tRowHeight, p_um,
-                 p_startX, p_labelDef, p_Interline, p_startY, p_Frame);
+                 p_startX, p_labelDef, p_Interline, p_startY, p_Frame, p_bulk_size);
   END;
 
 -- Defined starting from ORACLE 11
 $IF not DBMS_DB_VERSION.ver_le_10 $THEN
-  PROCEDURE refcursor2table(p_rc         SYS_REFCURSOR
-                           ,p_formats    tp_columns := null
-                           ,p_colors     tp_colors := NULL
-                           ,p_hRowHeight NUMBER:=NULL
-                           ,p_tRowHeight NUMBER:=NULL
-                           ,p_um         VARCHAR2 := 'pt'
-                           ,p_startX     NUMBER:= 0
-                           ,p_BreakField number:= 0
-                           ,p_Interline  number:=1.2
-                           ,p_startY     NUMBER:= 0
-                           ,p_Frame      varchar2:=null
-                           , p_bulk_size  pls_integer:= 200
-                            ) IS
+  PROCEDURE refcursor2table
+    ( p_rc         sys_refcursor
+    , p_formats    tp_columns  := null
+    , p_colors     tp_colors   := null
+    , p_hRowHeight number      := null
+    , p_tRowHeight number      := null
+    , p_um         varchar2    := 'pt'
+    , p_startX     number      := 0    -- Distance from left border
+    , p_BreakField number      := 0
+    , p_Interline  number      := 1.2
+    , p_startY     number      := 0    -- Distance from top border
+    , p_Frame      varchar2    := null -- Border Around format
+    , p_bulk_size  pls_integer := 200
+    )
+  IS
     v_cx INTEGER;
     v_rc SYS_REFCURSOR;
   BEGIN
@@ -5484,23 +5493,43 @@ $IF not DBMS_DB_VERSION.ver_le_10 $THEN
                  p_startX, p_BreakField, p_Interline, p_startY, p_Frame, p_bulk_size);
     dbms_sql.close_cursor(v_cx);
   END;
-$END
 
--- Defined starting from ORACLE 11
-$IF not DBMS_DB_VERSION.ver_le_10 $THEN
-  PROCEDURE refcursor2label(p_rc         SYS_REFCURSOR
-                           ,p_formats    tp_columns:= NULL
-                           ,p_colors     tp_colors := NULL
-                           ,p_hRowHeight NUMBER:=NULL
-                           ,p_tRowHeight NUMBER:=NULL
-                           ,p_um         VARCHAR2 := 'pt'
-                           ,p_startX     NUMBER:= 0
-                           ,p_labelDef   tp_labeldef
-                           ,p_Interline  number     :=1.2
-                           ,p_startY     NUMBER     := 0
-                           ,p_Frame      varchar2:=null
-                           , p_bulk_size pls_integer:= 200
-                            ) IS
+  PROCEDURE refcursor2table
+    ( p_rc         sys_refcursor
+    , p_formats    tp_columns  := null
+    , p_colors     varchar2    := null -- Color list CSV
+    , p_hRowHeight number      := null
+    , p_tRowHeight number      := null
+    , p_um         varchar2    := 'pt'
+    , p_startX     number      := 0    -- Distance from left border
+    , p_BreakField number      := 0
+    , p_Interline  number      := 1.2
+    , p_startY     number      := 0    -- Distance from top border
+    , p_Frame      varchar2    := null -- Border Around format
+    , p_bulk_size  pls_integer := 200
+    )
+  IS
+  BEGIN
+    refcursor2table(p_rc, p_formats, colorTable(nvl(p_colors, c_dft_colours)),
+                    p_hRowHeight, p_tRowHeight, p_um,
+                    p_startX, p_BreakField, p_Interline, p_startY, p_Frame, p_bulk_size);
+  END;
+  
+  PROCEDURE refcursor2label
+    ( p_rc         sys_refcursor
+    , p_formats    tp_columns  := null
+    , p_colors     tp_colors   := null
+    , p_hRowHeight number      := null
+    , p_tRowHeight number      := null
+    , p_um         varchar2    := 'pt'
+    , p_startX     number      := 0    -- Distance from left border
+    , p_labelDef   tp_labeldef
+    , p_Interline  number      := 1.2
+    , p_startY     number      := 0    -- Distance from top border
+    , p_Frame      varchar2    := null -- Border Around format
+    , p_bulk_size  pls_integer := 200
+    )
+  IS
     v_cx INTEGER;
     v_rc SYS_REFCURSOR;
   BEGIN
@@ -5511,6 +5540,27 @@ $IF not DBMS_DB_VERSION.ver_le_10 $THEN
     cursor2table(v_cx, p_formats, p_colors, p_hRowHeight, p_tRowHeight, p_um, p_startX, 0, p_Interline, p_startY, p_Frame, p_bulk_size);
     g_settings.LabelMode:=false;
     dbms_sql.close_cursor(v_cx);
+  END;
+  
+  PROCEDURE refcursor2label
+    ( p_rc         sys_refcursor
+    , p_formats    tp_columns  := null
+    , p_colors     varchar2    := null -- Color list CSV
+    , p_hRowHeight number      := null
+    , p_tRowHeight number      := null
+    , p_um         varchar2    := 'pt'
+    , p_startX     number      := 0    -- Distance from left border
+    , p_labelDef   tp_labeldef
+    , p_Interline  number      := 1.2
+    , p_startY     number      := 0    -- Distance from top border
+    , p_Frame      varchar2    := null -- Border Around format
+    , p_bulk_size  pls_integer := 200
+    )
+  IS
+  BEGIN
+    refcursor2label(p_rc, p_formats, colorTable(nvl(p_colors, c_dft_colours)),
+                    p_hRowHeight, p_tRowHeight, p_um,
+                    p_startX, p_labelDef, p_Interline, p_startY, p_Frame, p_bulk_size);
   END;
 $END
 --
