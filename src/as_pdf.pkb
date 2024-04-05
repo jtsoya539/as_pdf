@@ -5359,8 +5359,8 @@ $END
 -- 2015-05-10 Add nvl(p_colors, colorTable(null)) that set default colours when null
   PROCEDURE query2table
     ( p_query      varchar2
-    , p_formats    tp_columns  := null
-    , p_colors     tp_colors   := null
+    , p_formats    tp_columns
+    , p_colors     tp_colors
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'
@@ -5394,8 +5394,8 @@ $END
 -- 2015-05-10 Add colorTable(nvl(p_colors, c_dft_colours)) that set default colours when null
   PROCEDURE query2table
     ( p_query      varchar2
-    , p_formats    tp_columns  := null
-    , p_colors     varchar2    := null -- Color list CSV
+    , p_formats    tp_columns
+    , p_colors     varchar2
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'
@@ -5413,11 +5413,22 @@ $END
                 p_startX, p_BreakField, p_Interline, p_startY, p_Frame, p_bulk_size);
   END;
 
+  procedure query2table
+    ( p_query   varchar2
+    , p_widths  tp_col_widths := null
+    , p_headers tp_headers    := null
+    )
+  is
+    t_dummy integer;
+  begin
+    write('Table here');
+  end;
+
 -- 2015-05-10 Add nvl(p_colors, colorTable(null)) that set default colours when null
   PROCEDURE query2Labels
     ( p_query      varchar2
-    , p_formats    tp_columns  := null
-    , p_colors     tp_colors   := null
+    , p_formats    tp_columns
+    , p_colors     tp_colors
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'
@@ -5448,8 +5459,8 @@ $END
 -- 2015-05-10 Add colorTable(nvl(p_colors, c_dft_colours)) that set default colours when null
   PROCEDURE query2Labels
     ( p_query      varchar2
-    , p_formats    tp_columns  := null
-    , p_colors     varchar2    := null -- Color list CSV
+    , p_formats    tp_columns
+    , p_colors     varchar2
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'
@@ -5471,8 +5482,8 @@ $END
 $IF not DBMS_DB_VERSION.ver_le_10 $THEN
   PROCEDURE refcursor2table
     ( p_rc         sys_refcursor
-    , p_formats    tp_columns  := null
-    , p_colors     tp_colors   := null
+    , p_formats    tp_columns
+    , p_colors     tp_colors
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'
@@ -5496,8 +5507,8 @@ $IF not DBMS_DB_VERSION.ver_le_10 $THEN
 
   PROCEDURE refcursor2table
     ( p_rc         sys_refcursor
-    , p_formats    tp_columns  := null
-    , p_colors     varchar2    := null -- Color list CSV
+    , p_formats    tp_columns
+    , p_colors     varchar2
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'
@@ -5515,10 +5526,21 @@ $IF not DBMS_DB_VERSION.ver_le_10 $THEN
                     p_startX, p_BreakField, p_Interline, p_startY, p_Frame, p_bulk_size);
   END;
   
+  procedure refcursor2table
+    ( p_rc      sys_refcursor
+    , p_widths  tp_col_widths := null
+    , p_headers tp_headers    := null
+    )
+  is
+    t_dummy integer;
+  begin
+    write('Table here');
+  end;
+
   PROCEDURE refcursor2label
     ( p_rc         sys_refcursor
-    , p_formats    tp_columns  := null
-    , p_colors     tp_colors   := null
+    , p_formats    tp_columns
+    , p_colors     tp_colors
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'
@@ -5544,8 +5566,8 @@ $IF not DBMS_DB_VERSION.ver_le_10 $THEN
   
   PROCEDURE refcursor2label
     ( p_rc         sys_refcursor
-    , p_formats    tp_columns  := null
-    , p_colors     varchar2    := null -- Color list CSV
+    , p_formats    tp_columns
+    , p_colors     varchar2
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'

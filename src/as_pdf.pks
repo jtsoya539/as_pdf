@@ -452,8 +452,8 @@ THE SOFTWARE.
 --
   procedure query2table
     ( p_query      varchar2
-    , p_formats    tp_columns  := null
-    , p_colors     tp_colors   := null
+    , p_formats    tp_columns
+    , p_colors     tp_colors
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'
@@ -466,8 +466,8 @@ THE SOFTWARE.
     );
   procedure query2table
     ( p_query      varchar2
-    , p_formats    tp_columns  := null
-    , p_colors     varchar2    := null -- Color list CSV
+    , p_formats    tp_columns
+    , p_colors     varchar2
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'
@@ -478,11 +478,16 @@ THE SOFTWARE.
     , p_Frame      varchar2    := null -- Border Around format
     , p_bulk_size  pls_integer := 200
     );
+  procedure query2table
+    ( p_query   varchar2
+    , p_widths  tp_col_widths := null
+    , p_headers tp_headers    := null
+    );
 --
   procedure query2Labels
     ( p_query      varchar2
-    , p_formats    tp_columns  := null
-    , p_colors     tp_colors   := null
+    , p_formats    tp_columns
+    , p_colors     tp_colors
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'
@@ -495,8 +500,8 @@ THE SOFTWARE.
     );
   procedure query2Labels
     ( p_query      varchar2
-    , p_formats    tp_columns  := null
-    , p_colors     varchar2    := null -- Color list CSV
+    , p_formats    tp_columns
+    , p_colors     varchar2
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'
@@ -512,8 +517,8 @@ THE SOFTWARE.
 $IF not DBMS_DB_VERSION.ver_le_10 $THEN
   procedure refcursor2table
     ( p_rc         sys_refcursor
-    , p_formats    tp_columns  := null
-    , p_colors     tp_colors   := null
+    , p_formats    tp_columns
+    , p_colors     tp_colors
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'
@@ -526,8 +531,8 @@ $IF not DBMS_DB_VERSION.ver_le_10 $THEN
     );
   procedure refcursor2table
     ( p_rc         sys_refcursor
-    , p_formats    tp_columns  := null
-    , p_colors     varchar2    := null -- Color list CSV
+    , p_formats    tp_columns
+    , p_colors     varchar2
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'
@@ -538,11 +543,16 @@ $IF not DBMS_DB_VERSION.ver_le_10 $THEN
     , p_Frame      varchar2    := null -- Border Around format
     , p_bulk_size  pls_integer := 200
     );
+  procedure refcursor2table
+    ( p_rc      sys_refcursor
+    , p_widths  tp_col_widths := null
+    , p_headers tp_headers    := null
+    );
 --
   procedure refcursor2label
     ( p_rc         sys_refcursor
-    , p_formats    tp_columns  := null
-    , p_colors     tp_colors   := null
+    , p_formats    tp_columns
+    , p_colors     tp_colors
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'
@@ -555,8 +565,8 @@ $IF not DBMS_DB_VERSION.ver_le_10 $THEN
     );
   procedure refcursor2label
     ( p_rc         sys_refcursor
-    , p_formats    tp_columns  := null
-    , p_colors     varchar2    := null -- Color list CSV
+    , p_formats    tp_columns
+    , p_colors     varchar2
     , p_hRowHeight number      := null
     , p_tRowHeight number      := null
     , p_um         varchar2    := 'pt'
