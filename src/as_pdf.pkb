@@ -108,7 +108,7 @@ create or replace package body as_pdf is
 -- constants
   c_nl constant         varchar2(2) := chr(13) || chr(10);
   c_package constant    varchar2(32):='AS_PDF'; -- Package Name
-  c_version constant    varchar2(32):='3.6.1'; -- Package Version
+  c_version constant    varchar2(32):='3.6.2'; -- Package Version
 
 -- Generic Functions
   PROCEDURE log(p_vString IN VARCHAR2, p_bFlag IN BOOLEAN:=FALSE) IS
