@@ -8,13 +8,6 @@ create or replace package as_pdf is
 ** See also: http://technology.amis.nl/?p=17718
 **
 ******************************************************************************
-**
-** Author: Valerio Rossetti
-** Date: 27-07-2012
-** Website:  http://valeriorossetti.blogspot.it/
-** See also: http://valeriorossetti.blogspot.it/2014/07/aspdf3v5-new-features-versione-italiana.html
-**
-******************************************************************************
 Copyright (C) 2012 by Anton Scheffer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -314,6 +307,7 @@ THE SOFTWARE.
     -- New parameters for cell Width & Height
     , p_cellWidth number := null
     , p_cellHeight number := null
+    , p_adler32 varchar2 := null
   );
 --
   procedure put_image
@@ -329,6 +323,7 @@ THE SOFTWARE.
     -- New parameters for cell Width & Height
     , p_cellWidth number := null
     , p_cellHeight number := null
+    , p_adler32 varchar2 := null
     );
 --
   procedure put_image
@@ -343,6 +338,7 @@ THE SOFTWARE.
     -- New parameters for cell Width & Height
     , p_cellWidth number := null
     , p_cellHeight number := null
+    , p_adler32 varchar2 := null
     );
 --
   Function BorderType(p_vBorder in varchar2) return number;
