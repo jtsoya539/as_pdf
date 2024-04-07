@@ -19,7 +19,7 @@ BEGIN
               FROM dual) LOOP
     SELECT listagg(word, ' ') within GROUP(ORDER BY word) words
       INTO t_text
-      FROM (SELECT dbms_random.string('a', dbms_random.value(4, 30)) word
+      FROM (SELECT dbms_random.string('a', dbms_random.value(1, 18)) word
               FROM dual
             CONNECT BY LEVEL <= 50) x;
   
