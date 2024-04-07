@@ -5419,9 +5419,39 @@ $END
     , p_headers tp_headers    := null
     )
   is
-    t_dummy integer;
+    i integer;
+    t_columns tp_columns;
+    t_widths_count  integer := 0;
+    t_headers_count integer := 0;
   begin
-    query2table(p_query, null, c_dft_colours);
+    if p_widths is not null then
+      t_widths_count := p_widths.count;
+    end if;
+    if p_headers is not null then
+      t_headers_count := p_headers.count;
+    end if;
+        
+    t_columns := tp_columns();
+    t_columns.extend(greatest(t_widths_count, t_headers_count));
+    
+    if p_widths is not null then
+      i := p_widths.first;
+      while i is not null 
+      loop
+        t_columns(i).colWidth := p_widths(i);
+        i := p_widths.next(i);
+      end loop;
+    end if;
+    if p_headers is not null then
+      i := p_headers.first;
+      while i is not null 
+      loop
+        t_columns(i).colLabel := p_headers(i);
+        i := p_headers.next(i);
+      end loop;
+    end if;
+    
+    query2table(p_query, t_columns, c_dft_colours);
   end;
 
 -- 2015-05-10 Add nvl(p_colors, colorTable(null)) that set default colours when null
@@ -5532,9 +5562,39 @@ $IF not DBMS_DB_VERSION.ver_le_10 $THEN
     , p_headers tp_headers    := null
     )
   is
-    t_dummy integer;
+    i integer;
+    t_columns tp_columns;
+    t_widths_count  integer := 0;
+    t_headers_count integer := 0;
   begin
-    refcursor2table(p_rc, null, c_dft_colours);
+    if p_widths is not null then
+      t_widths_count := p_widths.count;
+    end if;
+    if p_headers is not null then
+      t_headers_count := p_headers.count;
+    end if;
+        
+    t_columns := tp_columns();
+    t_columns.extend(greatest(t_widths_count, t_headers_count));
+    
+    if p_widths is not null then
+      i := p_widths.first;
+      while i is not null 
+      loop
+        t_columns(i).colWidth := p_widths(i);
+        i := p_widths.next(i);
+      end loop;
+    end if;
+    if p_headers is not null then
+      i := p_headers.first;
+      while i is not null 
+      loop
+        t_columns(i).colLabel := p_headers(i);
+        i := p_headers.next(i);
+      end loop;
+    end if;
+    
+    refcursor2table(p_rc, t_columns, c_dft_colours);
   end;
 
   PROCEDURE refcursor2label
