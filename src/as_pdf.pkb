@@ -3,7 +3,7 @@ create or replace package body as_pdf is
 -- *****************************************************
 -- constants
   c_package constant varchar2(32) := 'AS_PDF'; -- Package Name
-  c_version constant varchar2(32) := '3.6.2'; -- Package Version
+  c_version constant varchar2(32) := '3.6.3'; -- Package Version
   c_nl      constant varchar2(2)  := chr(13) || chr(10);
 --
   type tp_pls_tab is table of pls_integer index by pls_integer;
